@@ -49,11 +49,22 @@ document.querySelector('#order-form').addEventListener('submit', orderCookies);
 
 // PART 4: iTunes Search
 
-function iTunesSearch(evt) {
+async function iTunesSearch(evt) {
   evt.preventDefault();
   const searchTerm = document.querySelector("#search-term").value;
 
-  // TODO: In the #itunes-results list, show all results in the following format:
+  //  In the #itunes-results list, show all results in the following format:
   // `Artist: ${artistName} Song: ${trackName}`
+  const formData = {'term': searchTerm};
+  const queryString = new URLSearchParams(formData).toString();
+  const url = `https://itunes.apple.com/search?${queryString}`;
+
+  const response = await axios.get(url);
+  let displayString = "";
+  for (const result of response.data.results) {
+    displayString += `<li>Artist: ${result.artistName} Song: ${result.trackName}</li>`;
+  }
+  document.querySelector("#itunes-results").innerHTML = displayString;
 }
+
 document.querySelector('#itunes-search-form').addEventListener('submit', iTunesSearch);
