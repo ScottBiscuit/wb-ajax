@@ -15,10 +15,12 @@ document.querySelector('#get-dog-image').addEventListener('click', showDogPhoto)
 
 // PART 2: Show Weather
 
-function showWeather(evt) {
+async function showWeather(evt) {
   const zipcode = document.querySelector('#zipcode-field').value;
-
-  // TODO: request weather with that URL and show the forecast in #weather-info
+  // : request weather with that URL and show the forecast in #weather-info
+  const url = `/weather.txt?zipcode=${zipcode}`;
+  const response = await axios.get(url);
+  document.querySelector('#weather-info').innerText = response.data;
 }
 
 document.querySelector('#weather-button').addEventListener('click', showWeather);
